@@ -46,6 +46,9 @@
             this.btnImportar = new System.Windows.Forms.Button();
             this.btnSegment = new System.Windows.Forms.Button();
             this.btnIntercambio = new System.Windows.Forms.Button();
+            this.btnEtiquetar = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.numericSize = new System.Windows.Forms.NumericUpDown();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureFirst)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureRed)).BeginInit();
@@ -54,6 +57,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackRed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackGreen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBlue)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericSize)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -239,7 +243,7 @@
             // btnIntercambio
             // 
             this.btnIntercambio.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnIntercambio.Location = new System.Drawing.Point(421, 77);
+            this.btnIntercambio.Location = new System.Drawing.Point(639, 77);
             this.btnIntercambio.Name = "btnIntercambio";
             this.btnIntercambio.Size = new System.Drawing.Size(116, 50);
             this.btnIntercambio.TabIndex = 14;
@@ -247,12 +251,57 @@
             this.btnIntercambio.UseVisualStyleBackColor = true;
             this.btnIntercambio.Click += new System.EventHandler(this.btnIntercambio_Click);
             // 
+            // btnEtiquetar
+            // 
+            this.btnEtiquetar.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnEtiquetar.Location = new System.Drawing.Point(493, 77);
+            this.btnEtiquetar.Name = "btnEtiquetar";
+            this.btnEtiquetar.Size = new System.Drawing.Size(116, 50);
+            this.btnEtiquetar.TabIndex = 15;
+            this.btnEtiquetar.Text = "ETIQUETAR";
+            this.btnEtiquetar.UseVisualStyleBackColor = true;
+            this.btnEtiquetar.Click += new System.EventHandler(this.btnEtiquetar_Click);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.Control;
+            this.label1.Location = new System.Drawing.Point(236, 77);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(237, 25);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "Tamaño mínimo de objeto";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // numericSize
+            // 
+            this.numericSize.Location = new System.Drawing.Point(342, 105);
+            this.numericSize.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericSize.Name = "numericSize";
+            this.numericSize.Size = new System.Drawing.Size(120, 20);
+            this.numericSize.TabIndex = 18;
+            this.numericSize.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
             // FormPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(18)))));
             this.ClientSize = new System.Drawing.Size(1238, 805);
+            this.Controls.Add(this.numericSize);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnEtiquetar);
             this.Controls.Add(this.btnIntercambio);
             this.Controls.Add(this.btnSegment);
             this.Controls.Add(this.btnImportar);
@@ -281,6 +330,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackRed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackGreen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBlue)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericSize)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -306,6 +356,9 @@
         private System.Windows.Forms.Button btnImportar;
         private System.Windows.Forms.Button btnSegment;
         private System.Windows.Forms.Button btnIntercambio;
+        private System.Windows.Forms.Button btnEtiquetar;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown numericSize;
     }
 }
 

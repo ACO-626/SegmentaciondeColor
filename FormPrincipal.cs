@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Emgu;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using Emgu.CV.Cvb;
 
 
 namespace SegmentaciondeColor
@@ -22,6 +23,9 @@ namespace SegmentaciondeColor
         Image<Bgr, byte> greenImage;
         Image<Bgr, byte> blueImage;
         Image<Bgr, byte> combinadaImg;
+        Image<Gray, byte> GverdeImage;
+        Image<Gray, byte> GazulImage;
+        Image<Gray, byte> GrojoImage;
         byte redAux;
         byte greenAux;
         byte blueAux;
@@ -138,6 +142,7 @@ namespace SegmentaciondeColor
         #region Intercambio
         private void btnIntercambio_Click(object sender, EventArgs e)
         {
+            
             if(img!=null)
             {
                 if (btnIntercambio.Text == "ORIGINAL")
@@ -148,7 +153,8 @@ namespace SegmentaciondeColor
                 else
                 {
                     btnIntercambio.Text = "ORIGINAL";
-                    pictureFirst.Image = combinadaImg.Bitmap;
+                    componer();           
+                    pictureFirst.Image = combinadaImg.ToBitmap();
                 }
             }
             else
@@ -156,13 +162,89 @@ namespace SegmentaciondeColor
                 MessageBox.Show("Debe cargar una imagen","Sin imagen cargada",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
            
-                
-
-                
+  
            
         }
         #endregion
 
+        #region Componer
+        private void componer()
+        {
+            combinadaImg = new Image<Bgr, byte>(img.Width,img.Height);
+            for(int i=0;i<combinadaImg.Height;i++)
+            {
+                for(int j=0;j<combinadaImg.Width;j++)
+                {
+                    combinadaImg[i, j] = new Bgr(blueImage[i, j].Blue, greenImage[i, j].Green, redImage[i, j].Red);
+                }
+            }
+        }
 
+
+        #endregion
+
+        private void btnEtiquetar_Click(object sender, EventArgs e)
+        {
+            GrojoImage = redImage.Convert<Gray, byte>().ThresholdBinary(new Gray(10), new Gray(255));
+            Emgu.CV.Util.VectorOfVectorOfPoint contoursRed = new Emgu.CV.Util.VectorOfVectorOfPoint();
+            Mat matRed = new Mat();
+            CvInvoke.FindContours(GrojoImage,contoursRed,matRed, Emgu.CV.CvEnum.RetrType.External, Emgu.CV.CvEnum.ChainApproxMethod.ChainApproxSimple);
+            for (int i = 0; i < contoursRed.Size; i++)
+            {
+                var area = CvInvoke.ContourArea(contoursRed[i]);
+                if (area > (int)numericSize.Value)
+                {
+                    var blob = CvInvoke.BoundingRectangle(contoursRed[i]);
+                    blob.Y -= 5;
+                    CvInvoke.PutText(img, "Rojo" , blob.Location, Emgu.CV.CvEnum.FontFace.HersheySimplex, 0.5, new MCvScalar(255, 255, 255));
+                    CvInvoke.PutText(combinadaImg, "Rojo", blob.Location, Emgu.CV.CvEnum.FontFace.HersheySimplex, 0.5, new MCvScalar(255, 255, 255));
+                }
+
+            }
+            GverdeImage = greenImage.Convert<Gray, byte>().ThresholdBinary(new Gray(10), new Gray(255));
+            Emgu.CV.Util.VectorOfVectorOfPoint contoursGreen = new Emgu.CV.Util.VectorOfVectorOfPoint();
+            Mat matVer = new Mat();
+            CvInvoke.FindContours(GverdeImage, contoursGreen, matVer, Emgu.CV.CvEnum.RetrType.External, Emgu.CV.CvEnum.ChainApproxMethod.ChainApproxSimple);
+            for (int i = 0; i < contoursGreen.Size; i++)
+            {
+                var area = CvInvoke.ContourArea(contoursGreen[i]);
+                if (area > (int)numericSize.Value)
+                {
+                    var blob = CvInvoke.BoundingRectangle(contoursGreen[i]);
+                    blob.Y -= 5;
+                    CvInvoke.PutText(img, "Verde", blob.Location, Emgu.CV.CvEnum.FontFace.HersheySimplex, 0.5, new MCvScalar(255, 255, 255));
+                    CvInvoke.PutText(combinadaImg, "Verde", blob.Location, Emgu.CV.CvEnum.FontFace.HersheySimplex, 0.5, new MCvScalar(255, 255, 255));
+                }
+
+            }
+            GazulImage = blueImage.Convert<Gray, byte>().ThresholdBinary(new Gray(10), new Gray(255));
+            Emgu.CV.Util.VectorOfVectorOfPoint contoursBlue = new Emgu.CV.Util.VectorOfVectorOfPoint();
+            Mat matAzu = new Mat();
+            CvInvoke.FindContours(GazulImage, contoursBlue, matAzu, Emgu.CV.CvEnum.RetrType.External, Emgu.CV.CvEnum.ChainApproxMethod.ChainApproxSimple);
+            for (int i = 0; i < contoursBlue.Size; i++)
+            {
+                var area = CvInvoke.ContourArea(contoursBlue[i]);
+                if (area > (int)numericSize.Value)
+                {
+                    var blob = CvInvoke.BoundingRectangle(contoursBlue[i]);
+                    blob.Y -= 5;
+                    CvInvoke.PutText(img, "Azul", blob.Location, Emgu.CV.CvEnum.FontFace.HersheySimplex, 0.5, new MCvScalar(255, 255, 255));
+                    CvInvoke.PutText(combinadaImg, "Azul", blob.Location, Emgu.CV.CvEnum.FontFace.HersheySimplex, 0.5, new MCvScalar(255, 255, 255));
+                }
+
+            }
+            if(btnIntercambio.Text=="ORIGINAL")
+            {
+                pictureFirst.Image = combinadaImg.ToBitmap();
+            }else
+            {
+                pictureFirst.Image = img.ToBitmap();
+            }
+            
+            
+
+
+
+        }
     }
 }
